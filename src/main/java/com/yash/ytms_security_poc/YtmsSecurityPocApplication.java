@@ -27,6 +27,10 @@ public class YtmsSecurityPocApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        /**
+         * Comment out the below code at first run
+         */
         UserRole role = new UserRole(501L, UserRoleTypes.ROLE_NORMAL_USER.toString());
 
         YtmsUser user = new YtmsUser(1L,
