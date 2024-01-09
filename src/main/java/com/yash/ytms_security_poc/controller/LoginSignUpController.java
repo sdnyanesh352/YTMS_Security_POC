@@ -31,6 +31,9 @@ public class LoginSignUpController {
     private IAuthService authService;
 
     @Autowired
+    private IYtmsUserService userService;
+
+    @Autowired
     private IYtmsUserService ytmsUserService;
 
     @PostMapping("/login")
@@ -39,6 +42,14 @@ public class LoginSignUpController {
                 .authService
                 .login(authRequest);
         return new ResponseEntity<>(authResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<YtmsUserDto> register(@RequestBody YtmsUserDto userDto) {
+        YtmsUserDto newUser = this
+                .userService
+                .createNewUser(userDto);
+        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
     @GetMapping("/get/user/{id}")

@@ -95,7 +95,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity https) throws Exception {
         https.csrf(AbstractHttpConfigurer :: disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/ytms/register").permitAll()
+                    auth.requestMatchers("/ytms/register/**").permitAll()
                             .requestMatchers("/ytms/login/**").permitAll()
                             .anyRequest().authenticated();
                 })

@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,6 +31,9 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
 
     @Autowired
     private IUserRoleService userRoleService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -54,6 +58,8 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
                 user = this
                         .modelMapper
                         .map(userDto, YtmsUser.class);
+
+                user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 
                 //reassigned with the new created data
                 user = this
