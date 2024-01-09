@@ -29,7 +29,7 @@ public class CustomUserDetails implements UserDetails {
     private List<GrantedAuthority> grantedAuthorities;
 
     public CustomUserDetails(YtmsUser users) {
-        this.userName = users.getUserName();
+        this.userName = users.getFullName();
         this.emailAdd = users.getEmailAdd();
         this.password = users.getPassword();
         this.grantedAuthorities = List.of(new SimpleGrantedAuthority(users.getUserRole().getRoleTypes()));

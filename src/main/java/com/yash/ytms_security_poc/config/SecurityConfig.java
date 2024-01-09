@@ -97,7 +97,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("/ytms/register").permitAll()
                             .requestMatchers("/ytms/login/**").permitAll()
-//                            .requestMatchers(HttpMethod.GET).permitAll()
                             .anyRequest().authenticated();
                 })
 //                .antMatchers(PUBLIC_URLS).permitAll()

@@ -11,7 +11,9 @@ import com.yash.ytms_security_poc.dto.YtmsUserDto;
  * @since - 28-12-2023
  */
 public interface IYtmsUserService {
-    
+
+    YtmsUserDto createNewUser(YtmsUserDto userDto);
+
     YtmsUserDto getUserByEmailAdd(String emailAdd);
 
     YtmsUserDto getUserById(Long id);

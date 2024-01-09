@@ -1,8 +1,5 @@
 package com.yash.ytms_security_poc;
 
-import com.yash.ytms_security_poc.constants.UserRoleTypes;
-import com.yash.ytms_security_poc.model.UserRole;
-import com.yash.ytms_security_poc.model.YtmsUser;
 import com.yash.ytms_security_poc.repository.YtmsUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,16 +28,17 @@ public class YtmsSecurityPocApplication implements CommandLineRunner {
         /**
          * Comment out the below code at first run
          */
-        UserRole role = new UserRole(501L, UserRoleTypes.ROLE_NORMAL_USER.toString());
+        /*UserRole role = new UserRole(501L, UserRoleTypes.ROLE_NORMAL_USER.toString());
 
         YtmsUser user = new YtmsUser(1L,
                 "Yash",
                 "yash.raj@yash.com",
                 this.passwordEncoder.encode("abcde"),
+                this.passwordEncoder.encode("abcde"),
                 role);
 
         this
                 .userRepository
-                .save(user);
+                .save(user);*/
     }
 }

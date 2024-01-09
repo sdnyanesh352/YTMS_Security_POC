@@ -1,6 +1,5 @@
 package com.yash.ytms_security_poc.services.ServiceImpls;
 
-import com.yash.ytms_security_poc.dto.YtmsUserDto;
 import com.yash.ytms_security_poc.exception.ApplicationException;
 import com.yash.ytms_security_poc.security.jwt.JwtAuthRequest;
 import com.yash.ytms_security_poc.security.jwt.JwtAuthResponse;
@@ -48,15 +47,7 @@ public class AuthServiceImpl implements IAuthService {
                 .tokenHelper
                 .generateToken(userDetails);
 
-        JwtAuthResponse authResponse = new JwtAuthResponse();
-        YtmsUserDto ytmsUserDto = this
-                .userService
-                .getUserByEmailAdd(userDetails.getEmailAdd());
-
-        authResponse.setToken(token);
-        authResponse.setUsersDto(ytmsUserDto);
-
-        return authResponse;
+        return new JwtAuthResponse(token);
     }
 
     private void authenticate(String userName,

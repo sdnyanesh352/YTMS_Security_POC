@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,14 +35,17 @@ public class YtmsUser {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "user_name")
-    private String userName;
+    @Column(name = "full_name")
+    private String fullName;
 
     @Column(name = "email_add")
     private String emailAdd;
 
     @Column(name = "password")
     private String password;
+
+    @Transient
+    private String confirmPassword;
 
     @OneToOne
     @JoinColumn(name = "user_role")
