@@ -36,4 +36,14 @@ public class YtmsUserDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @JsonIgnore
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    @JsonProperty
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 }

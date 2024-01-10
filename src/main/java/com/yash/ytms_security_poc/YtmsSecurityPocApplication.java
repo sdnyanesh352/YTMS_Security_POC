@@ -33,8 +33,8 @@ public class YtmsSecurityPocApplication implements CommandLineRunner {
         YtmsUser user = new YtmsUser(1L,
                 "Yash",
                 "yash.raj@yash.com",
-                this.passwordEncoder.encode("abcde"),
-                this.passwordEncoder.encode("abcde"),
+                this.passwordEncoder.encode("abi258.Y@sh"),
+                this.passwordEncoder.encode("abi258.Y@sh"),
                 role);
 
         this
