@@ -41,7 +41,7 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
     @Override
     public YtmsUserDto createNewUser(YtmsUserDto userDto) {
         YtmsUser user = null;
-        if (ObjectUtils.isNotEmpty(userDto)) {
+        if (ObjectUtils.isNotEmpty(userDto)&&(userDto.getPassword().equals(userDto.getConfirmPassword()))) {
 
             user = this
                     .userRepository
@@ -62,9 +62,11 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
                 user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 
                 //reassigned with the new created data
-                user = this
-                        .userRepository
-                        .save(user);
+
+                    user = this
+                            .userRepository
+                            .save(user);
+
 
                 //re-assigning the dto class with the new data
                 userDto = this
@@ -73,6 +75,9 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
             } else {
                 throw new ApplicationException("User already exists with this email address");
             }
+        }
+        else {
+            throw  new ApplicationException("User details are empty or password does not matches");
         }
 
         return userDto;
