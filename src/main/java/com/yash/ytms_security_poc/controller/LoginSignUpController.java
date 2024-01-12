@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -52,11 +52,11 @@ public class LoginSignUpController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/get/user/{id}")
-    public ResponseEntity<YtmsUserDto> login(@PathVariable(required = true) Long id) {
+    @GetMapping("/get/user")
+    public ResponseEntity<YtmsUserDto> getUserByEmail(@RequestParam String email) {
         YtmsUserDto user = this
                 .ytmsUserService
-                .getUserById(id);
+                .getUserByEmailAdd(email);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

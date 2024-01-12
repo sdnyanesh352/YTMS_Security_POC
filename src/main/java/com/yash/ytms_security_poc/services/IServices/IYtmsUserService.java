@@ -15,6 +15,4 @@ public interface IYtmsUserService {
     YtmsUserDto createNewUser(YtmsUserDto userDto);
 
     YtmsUserDto getUserByEmailAdd(String emailAdd);
-
-    YtmsUserDto getUserById(Long id);
 }

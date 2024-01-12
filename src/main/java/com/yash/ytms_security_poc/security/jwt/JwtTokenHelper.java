@@ -4,7 +4,8 @@ import com.yash.ytms_security_poc.security.userdetails.CustomUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -27,6 +28,11 @@ public class JwtTokenHelper {
         return getClaimFromToken(token, Claims :: getExpiration);
     }
 
+    public String getRolesFromToken(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return (String) claims.get("roles");
+    }
+
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimResolver.apply(claims);
@@ -46,19 +52,27 @@ public class JwtTokenHelper {
 
     public String generateToken(CustomUserDetails customUserDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, customUserDetails.getEmailAdd());
+        GrantedAuthority authority = customUserDetails.getGrantedAuthorities();
+        claims.put("roles", authority.getAuthority());
+        claims.put("fullName", customUserDetails.getFullName());
+        return doGenerateToken(claims, customUserDetails.getUsername());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
-        return Jwts.builder().setClaims(claims).setSubject(subject)
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 100))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, CustomUserDetails userDetails) {
         final String userName = getUserNameFromToken(token);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String roles = getRolesFromToken(token);
+        return (StringUtils.equals(userName, userDetails.getUsername()))
+                && !isTokenExpired(token)
+                && StringUtils.equals(userDetails.getGrantedAuthorities().getAuthority(), roles);
     }
 }

@@ -15,8 +15,6 @@ import lombok.Data;
 @Data
 public class YtmsUserDto {
 
-    private Long userId;
-
     private String fullName;
 
     private String emailAdd;

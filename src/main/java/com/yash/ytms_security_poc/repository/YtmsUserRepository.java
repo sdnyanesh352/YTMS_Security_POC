@@ -18,7 +18,4 @@ public interface YtmsUserRepository extends JpaRepository<YtmsUser, Long> {
 
     @Query("select yur from YtmsUser yur where yur.emailAdd=?1")
     YtmsUser getUserByEmail(String email);
-
-    @Query("select yur from YtmsUser yur where yur.userId=?1")
-    YtmsUser getUserById(Long id);
 }

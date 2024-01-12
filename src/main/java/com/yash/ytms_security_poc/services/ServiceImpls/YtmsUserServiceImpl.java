@@ -49,30 +49,37 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
 
             if (ObjectUtils.isEmpty(user)) {
                 //user do not exist, new user will be created
-                UserRoleDto userRoleDto = this
-                        .userRoleService
-                        .getUserRoleByRoleName(UserRoleTypes.ROLE_NORMAL_USER.toString());
+                if (StringUtils.equals(userDto.getPassword(), userDto.getConfirmPassword())) {
 
-                userDto.setUserRole(userRoleDto);
+                    UserRoleDto userRoleDto = this
+                            .userRoleService
+                            .getUserRoleByRoleName(UserRoleTypes.ROLE_NORMAL_USER.toString());
 
-                user = this
-                        .modelMapper
-                        .map(userDto, YtmsUser.class);
+                    userDto.setUserRole(userRoleDto);
 
-                user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
+                    user = this
+                            .modelMapper
+                            .map(userDto, YtmsUser.class);
 
-                //reassigned with the new created data
-                user = this
-                        .userRepository
-                        .save(user);
+                    user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 
-                //re-assigning the dto class with the new data
-                userDto = this
-                        .modelMapper
-                        .map(user, YtmsUserDto.class);
+                    //reassigned with the new created data
+                    user = this
+                            .userRepository
+                            .save(user);
+
+                    //re-assigning the dto class with the new data
+                    userDto = this
+                            .modelMapper
+                            .map(user, YtmsUserDto.class);
+                } else {
+                    throw new ApplicationException("Password did not matched, please try again");
+                }
             } else {
                 throw new ApplicationException("User already exists with this email address");
             }
+        } else {
+            throw new ApplicationException("Invalid user details");
         }
 
         return userDto;
@@ -91,23 +98,6 @@ public class YtmsUserServiceImpl implements IYtmsUserService {
                     .map(user, YtmsUserDto.class);
         } else {
             throw new ApplicationException("Email add is empty");
-        }
-        return userDto;
-    }
-
-    @Override
-    public YtmsUserDto getUserById(Long id) {
-        YtmsUserDto userDto = null;
-        YtmsUser user = null;
-
-        if (ObjectUtils.isNotEmpty(id)) {
-            user = this.userRepository.getUserById(id);
-
-            userDto = this
-                    .modelMapper
-                    .map(user, YtmsUserDto.class);
-        } else {
-            throw new ApplicationException("Id is empty");
         }
         return userDto;
     }

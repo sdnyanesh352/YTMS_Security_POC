@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 /**
  * Project Name - MyJobPortalAPI
@@ -20,19 +20,19 @@ import java.util.List;
 @Data
 public class CustomUserDetails implements UserDetails {
 
-    private String userName;
+    private String fullName;
 
     private String emailAdd;
 
     private String password;
 
-    private List<GrantedAuthority> grantedAuthorities;
+    private GrantedAuthority grantedAuthorities;
 
     public CustomUserDetails(YtmsUser users) {
-        this.userName = users.getFullName();
+        this.fullName = users.getFullName();
         this.emailAdd = users.getEmailAdd();
         this.password = users.getPassword();
-        this.grantedAuthorities = List.of(new SimpleGrantedAuthority(users.getUserRole().getRoleTypes()));
+        this.grantedAuthorities = new SimpleGrantedAuthority(users.getUserRole().getRoleTypes());
     }
 
     /**
@@ -42,7 +42,7 @@ public class CustomUserDetails implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+        return Collections.singleton(grantedAuthorities);
     }
 
     /**
